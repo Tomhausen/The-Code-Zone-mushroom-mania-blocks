@@ -4,6 +4,9 @@ namespace SpriteKind {
 function new_row_spawn () {
     if (scene.cameraProperty(CameraProperty.Bottom) >= new_spawn_y) {
         generate_row(new_spawn_y + 8)
+        if (randint(1, 5) == 1) {
+            spawn_coin()
+        }
         new_spawn_y += 16
         info.changeScoreBy(100)
     }
@@ -46,6 +49,18 @@ function place_tiles (y: number) {
         row.push(tile)
         x += 16
     }
+}
+function spawn_coin () {
+    coin = sprites.create(assets.animation`coin`[0], SpriteKind.Food)
+    animation.runImageAnimation(
+    coin,
+    assets.animation`coin`,
+    100,
+    true
+    )
+    coin.setPosition(randint(10, 150), new_spawn_y - 8)
+    coin.z = 10
+    coin.setFlag(SpriteFlag.AutoDestroy, true)
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (player2, enemy) {
     game.over(false)
@@ -97,6 +112,11 @@ function setup () {
         y += 16
     }
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
+    info.changeScoreBy(1000)
+    music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.InBackground)
+    sprites.destroy(otherSprite)
+})
 function move (anim: any[], x_change: number, y_change: number) {
     animation.runImageAnimation(
     witch,
@@ -112,6 +132,7 @@ function move (anim: any[], x_change: number, y_change: number) {
 }
 let y = 0
 let enemy: Sprite = null
+let coin: Sprite = null
 let tile: Sprite = null
 let x = 0
 let row: Sprite[] = []
