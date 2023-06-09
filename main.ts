@@ -10,7 +10,7 @@ function new_row_spawn () {
 }
 function generate_row (y: number) {
     row = []
-    place_tiles()
+    place_tiles(y)
     if (randint(1, 10) == 1) {
         for (let placed_tile of row) {
             placed_tile.setImage(assets.tile`off path`)
@@ -36,7 +36,7 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
         move(assets.animation`left`, -2, 0)
     })
 })
-function place_tiles () {
+function place_tiles (y: number) {
     x = 8
     for (let index = 0; index < 10; index++) {
         tile = sprites.create(assets.tile`path`, SpriteKind.floor)
