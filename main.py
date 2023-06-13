@@ -125,7 +125,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSpr
     music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.InBackground)
     sprites.destroy(otherSprite)
 })
-function generate_row_traps (tiles_in_row: any[]) {
+function generate_row_traps (tiles_in_row: Sprite[]) {
     random_number = randint(0, 1)
     i = 0
     for (let index = 0; index < tiles_in_row.length; index++) {
